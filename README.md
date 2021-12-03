@@ -17,6 +17,18 @@ Output format can be:
     git clone https://github.com/yuramorozov01/leverx_task1.git
     cd leverx_task1/
     ```
+2. Create virtual environment
+    ```sh
+    python3 -m venv venv
+    ```
+3. Activate virtual environment
+    ```sh
+    source venv/bin/activate
+    ```
+4. Install dependencies
+    ```sh
+    pip3 install -r requirements.txt
+    ```
 
 ## Exectuting
 1. Run script (format argument is case insensitive):

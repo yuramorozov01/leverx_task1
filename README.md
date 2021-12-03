@@ -34,9 +34,9 @@ Output format can be:
 1. Run script (format argument is case insensitive):
     * JSON output format 
     ```sh
-    python3 convert.py path/to/students.json path/to/rooms.json JSON
+    python3 convert.py path/to/students.json path/to/rooms.json JSON path/to/save.json
     ```
     * XML output format
     ```sh
-    python3 convert.py path/to/students.json path/to/rooms.json XML
+    python3 convert.py path/to/students.xml path/to/rooms.xml XML path/to/save.xml
     ```

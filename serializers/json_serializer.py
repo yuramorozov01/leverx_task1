@@ -1,4 +1,5 @@
 import json
+
 from exceptions.format_error import FormatError
 from serializers.serializer import Serializer
 

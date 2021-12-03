@@ -38,7 +38,7 @@ def get_serializer_instance(format_):
     return serializer
 
 
-def get_dict_of_json_data(serializer, path):
+def get_dict_of_data(serializer, path):
     '''Loading data in dictionary format with specified serializer and from specified path.'''
     try:
         dict_data = serializer.load(path)
@@ -91,8 +91,8 @@ def save_joined_data(serializer, data, path):
 
 if __name__ == '__main__':
     if len(sys.argv) != 5:
-        sys.exit(f'Format of executing: '
-                 f'python3 {sys.argv[0]} path/to/students.json path/to/rooms.json format path/to/save')
+        sys.exit(f'Example format of executing: '
+                 f'python3 {sys.argv[0]} path/to/students.json path/to/rooms.json JSON path/to/save.json')
 
     path_to_students = sys.argv[1]
     path_to_rooms = sys.argv[2]
@@ -103,8 +103,8 @@ if __name__ == '__main__':
     serializer_to_load_rooms = get_serializer_instance(get_file_extension(path_to_rooms))
     serializer_to_save = get_serializer_instance(format_)
 
-    dict_students = get_dict_of_json_data(serializer_to_load_students, path_to_students)
-    dict_rooms = get_dict_of_json_data(serializer_to_load_rooms, path_to_rooms)
+    dict_students = get_dict_of_data(serializer_to_load_students, path_to_students)
+    dict_rooms = get_dict_of_data(serializer_to_load_rooms, path_to_rooms)
 
     joined_data = convert_data(dict_students, dict_rooms)
     save_joined_data(serializer_to_save, joined_data, path_to_save)

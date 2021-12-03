@@ -18,7 +18,7 @@ class JsonSerializer(Serializer):
 
     def save(self, data, path):
         if self.check_file_extension(path, '.json'):
-            with open(path, "w") as f:
+            with open(path, 'w') as f:
                 json.dump(data, f)
         else:
             raise FormatError('File extensions is not ".json"')

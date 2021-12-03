@@ -1,3 +1,4 @@
+import os
 import sys
 from json import JSONDecodeError
 
@@ -8,7 +9,14 @@ from serializers.json_serializer import JsonSerializer
 from serializers.xml_serializer import XmlSerializer
 
 
-def get_serializer_class(input_format):
+def get_file_extension(path):
+    name, ext = os.path.splitext(path)
+    if len(ext) >= 1:
+        ext = ext[1:]
+    return ext
+
+
+def get_serializer_class(output_format):
     '''Determine serializer class by a data format.
     Can be 2 formats:
         - JSON
@@ -18,7 +26,16 @@ def get_serializer_class(input_format):
         'json': JsonSerializer,
         'xml': XmlSerializer,
     }
-    return formats.get(input_format)
+    return formats.get(output_format)
+
+
+def get_serializer_instance(format_):
+    '''Getting instance of specified serializer class'''
+    serializer_class = get_serializer_class(format_)
+    if serializer_class is None:
+        sys.exit(f'Unknown format: {format_}')
+    serializer = serializer_class()
+    return serializer
 
 
 def get_dict_of_json_data(serializer, path):
@@ -82,14 +99,13 @@ if __name__ == '__main__':
     format_ = sys.argv[3]
     path_to_save = sys.argv[4]
 
-    serializer_class = get_serializer_class(format_)
-    if not serializer_class:
-        sys.exit(f'Unknown format: {format_}')
+    serializer_to_load_students = get_serializer_instance(get_file_extension(path_to_students))
+    serializer_to_load_rooms = get_serializer_instance(get_file_extension(path_to_rooms))
+    serializer_to_save = get_serializer_instance(format_)
 
-    serializer = serializer_class()
-    dict_students = get_dict_of_json_data(serializer, path_to_students)
-    dict_rooms = get_dict_of_json_data(serializer, path_to_rooms)
+    dict_students = get_dict_of_json_data(serializer_to_load_students, path_to_students)
+    dict_rooms = get_dict_of_json_data(serializer_to_load_rooms, path_to_rooms)
 
     joined_data = convert_data(dict_students, dict_rooms)
-    save_joined_data(serializer, joined_data, path_to_save)
+    save_joined_data(serializer_to_save, joined_data, path_to_save)
     print(f'File has been successfully saved to {path_to_save}')

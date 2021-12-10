@@ -5,9 +5,6 @@ from serializers.serializer import Serializer
 
 
 class XmlSerializer(Serializer):
-    def __init__(self):
-        pass
-
     def load(self, path):
         if self.check_file_extension(path, '.xml'):
             xml_data = None

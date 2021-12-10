@@ -5,9 +5,6 @@ from serializers.serializer import Serializer
 
 
 class JsonSerializer(Serializer):
-    def __init__(self):
-        pass
-
     def load(self, path):
         if self.check_file_extension(path, '.json'):
             json_data = None

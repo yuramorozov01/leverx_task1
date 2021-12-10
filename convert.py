@@ -4,6 +4,7 @@ from json import JSONDecodeError
 
 import xmltodict
 
+from argument_parser import get_argument_parser
 from exceptions.format_error import FormatError
 from serializers.json_serializer import JsonSerializer
 from serializers.xml_serializer import XmlSerializer
@@ -80,22 +81,27 @@ def save_joined_data(serializer, data, path):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        sys.exit(f'Example format of executing: '
-                 f'python3 {sys.argv[0]} path/to/students.json path/to/rooms.json JSON path/to/save.json')
+    # Parse console arguments
+    parser = get_argument_parser()
+    args = parser.parse_args()
 
-    path_to_students = sys.argv[1]
-    path_to_rooms = sys.argv[2]
-    format_ = sys.argv[3]
-    path_to_save = sys.argv[4]
+    path_to_students = args.students
+    path_to_rooms = args.rooms
+    format_ = args.format
+    path_to_save = args.output
 
+    # Get serializers for every file by a format
     serializer_to_load_students = get_serializer_instance(get_file_extension(path_to_students))
     serializer_to_load_rooms = get_serializer_instance(get_file_extension(path_to_rooms))
     serializer_to_save = get_serializer_instance(format_)
 
+    # Load students and rooms into dictionaries with received serializers
     dict_students = get_dict_of_data(serializer_to_load_students, path_to_students)
     dict_rooms = get_dict_of_data(serializer_to_load_rooms, path_to_rooms)
 
+    # Join students and rooms
     joined_data = convert_data(dict_students, dict_rooms)
+
+    # Save joined data into a specified file
     save_joined_data(serializer_to_save, joined_data, path_to_save)
     print(f'File has been successfully saved to {path_to_save}')

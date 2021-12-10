@@ -45,11 +45,7 @@ def get_dict_of_data(serializer, path):
         return dict_data
     except FileNotFoundError as e:
         sys.exit(f'Cannot find file {path}')
-    except FormatError as e:
-        sys.exit(str(e))
-    except JSONDecodeError as e:
-        sys.exit(str(e))
-    except xmltodict.expat.ExpatError as e:
+    except (FormatError, JSONDecodeError, xmltodict.expat.ExpatError) as e:
         sys.exit(str(e))
 
 
@@ -79,13 +75,7 @@ def save_joined_data(serializer, data, path):
     '''Save processed data with specified serializer to file with path "path"'''
     try:
         serializer.save(data, path)
-    except FileNotFoundError as e:
-        sys.exit(str(e))
-    except FormatError as e:
-        sys.exit(str(e))
-    except JSONDecodeError as e:
-        sys.exit(str(e))
-    except xmltodict.expat.ExpatError as e:
+    except (FileNotFoundError, FormatError, JSONDecodeError, xmltodict.expat.ExpatError) as e:
         sys.exit(str(e))
 
 
